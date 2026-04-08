@@ -24,6 +24,9 @@ import { Cascadia_Code } from 'next/font/google';
 import Sidebar from '@/components/devices/Sidebar'
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
+
+const miniChartData = Array.from({ length: 15 }).map((_, i) => ({ time: i, value: +(80 + Math.random() * 20).toFixed(1) }));
 
 const codeFont = Cascadia_Code({
   subsets: ["latin"],
@@ -375,16 +378,20 @@ const Devices: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div>
-                        <div className="w-48 h-8 bg-gray-100 rounded relative overflow-hidden">
+                        <div className="w-48 h-8 rounded relative overflow-hidden">
                           <div className="absolute inset-0 flex items-center">
-                            <svg width="100%" height="100%" className="text-blue-500">
-                              <polyline
-                                points="0,20 30,15 60,25 90,10 120,18 150,12 180,22 210,16"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                              />
-                            </svg>
+                            <ResponsiveContainer width="100%" height="100%">
+                              <AreaChart data={miniChartData} margin={{ top: 2, right: 0, left: 0, bottom: 0 }}>
+                                <defs>
+                                  <linearGradient id="colorMini" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                                  </linearGradient>
+                                </defs>
+                                <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '10px', padding: '4px 8px' }} />
+                                <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={1.5} fillOpacity={1} fill="url(#colorMini)" activeDot={false} />
+                              </AreaChart>
+                            </ResponsiveContainer>
                           </div>
                         </div>
                         <div className="flex items-center justify-between mt-1">

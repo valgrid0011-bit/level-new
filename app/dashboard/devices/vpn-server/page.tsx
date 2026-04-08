@@ -17,9 +17,14 @@ import {
 import { BsMemory } from 'react-icons/bs';
 import { MdSecurity } from 'react-icons/md';
 import { RiHome6Line } from 'react-icons/ri';
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 
 const DeviceOverview: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Overview');
+
+  const cpuData = Array.from({ length: 30 }).map((_, i) => ({ time: i, value: +(40 + Math.random() * 20).toFixed(1) }));
+  const memoryData = Array.from({ length: 30 }).map((_, i) => ({ time: i, value: +(8 + Math.random() * 2).toFixed(1) }));
+  const uptimeData = Array.from({ length: 30 }).map((_, i) => ({ time: i, value: 100 }));
 
   const tabs = [
     'Overview',
@@ -238,15 +243,19 @@ const DeviceOverview: React.FC = () => {
                   <div className="text-sm text-gray-600">2 Cores @ 2.40 GHz</div>
                 </div>
 
-                <div className="h-24 flex items-end">
-                  <svg width="100%" height="100%" className="text-blue-500">
-                    <polyline
-                      points="0,90 20,85 40,88 60,82 80,86 100,84 120,90 140,85 160,87 180,83 200,85 220,88 240,84 260,86 280,89 300,85 320,87 340,84 360,88 380,86 400,90 420,85 440,87 460,84 480,86 500,89 520,85 540,88 560,86 580,90"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                  </svg>
+                <div className="h-24">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={cpuData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorCpu" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }} />
+                      <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorCpu)" activeDot={{ r: 4, fill: '#3b82f6', stroke: '#fff', strokeWidth: 2 }} />
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
 
@@ -262,15 +271,19 @@ const DeviceOverview: React.FC = () => {
                   <div className="text-sm text-gray-600">400.18 MB of 4 GB</div>
                 </div>
 
-                <div className="h-24 flex items-end">
-                  <svg width="100%" height="100%" className="text-blue-500">
-                    <polyline
-                      points="0,92 20,91 40,90 60,91 80,92 100,90 120,91 140,93 160,91 180,92 200,90 220,91 240,92 260,91 280,90 300,92 320,91 340,90 360,91 380,93 400,92 420,90 440,91 460,92 480,91 500,90 520,92 540,91 560,93 580,92"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                  </svg>
+                <div className="h-24">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={memoryData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorMem" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }} />
+                      <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorMem)" activeDot={{ r: 4, fill: '#3b82f6', stroke: '#fff', strokeWidth: 2 }} />
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
             </div>
@@ -302,10 +315,19 @@ const DeviceOverview: React.FC = () => {
                   <div className="text-sm text-gray-600">14 mo average ping</div>
                 </div>
 
-                <div className="h-24 flex items-end">
-                  <svg width="100%" height="100%" className="text-blue-500">
-                    <line x1="0" y1="10" x2="580" y2="10" stroke="currentColor" strokeWidth="2" />
-                  </svg>
+                <div className="h-24">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={uptimeData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorUptime" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }} />
+                      <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorUptime)" activeDot={{ r: 4, fill: '#3b82f6', stroke: '#fff', strokeWidth: 2 }} />
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
             </div>
