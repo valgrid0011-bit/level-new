@@ -107,7 +107,7 @@ const DeviceOverview: React.FC = () => {
 
       {/* Tabs */}
       <div className="flex bg-white border-b border-gray-200 px-6">
-        <div className="w-[90vw] flex gap-3 overflow-x-auto">
+        <div className="w-[80vw] flex gap-3 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -124,7 +124,7 @@ const DeviceOverview: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto p-3 md:px-6">
+      <div className="mx-auto p-5 md:px-6">
         {activeTab === 'Overview' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             <div className="flex flex-col gap-3">
