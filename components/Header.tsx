@@ -28,7 +28,7 @@ export function Header() {
           <Image src="/logo.svg" alt="Logo" width={96} height={32} className="py-4" />
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex text-sm text-gray-600">
+          <div className="hidden lg:flex text-sm text-gray-600">
             {links.map((link, i) => (
               <Link
                 key={i}
@@ -67,7 +67,7 @@ export function Header() {
 
           {/* Mobile Hamburger */}
           <button
-            className="md:hidden p-1 hover:bg-gray-100 rounded-full"
+            className="lg:hidden p-1 hover:bg-gray-100 rounded-full"
             onClick={() => setOpen(true)}
           >
             <FiMenu size={22} />
