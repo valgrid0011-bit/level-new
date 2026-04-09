@@ -18,6 +18,7 @@ import { BsMemory } from 'react-icons/bs';
 import { MdSecurity } from 'react-icons/md';
 import { RiHome6Line } from 'react-icons/ri';
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
+import Link from 'next/link';
 
 const DeviceOverview: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Overview');
@@ -78,11 +79,15 @@ const DeviceOverview: React.FC = () => {
       {/* Breadcrumb */}
       <div className="bg-white px-6 py-3">
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          <RiHome6Line size={18} />
+          <Link href="/dashboard" className='text-blue-500 hover:text-blue-600'>
+            <RiHome6Line size={18} />
+          </Link>
           <FiChevronRight size={14} />
-          <span className="text-gray-800 font-bold cursor-pointer hover:underline">Servers</span>
+          <Link href="/dashboard/devices" className="text-blue-500 hover:text-blue-600 font-bold cursor-pointer">
+            Devices
+          </Link>
           <FiChevronRight size={14} />
-          <span className="text-gray-800 font-bold cursor-pointer hover:underline">Internal</span>
+          <span className="text-gray-800 font-bold">VPN Server</span>
         </div>
       </div>
 
@@ -240,16 +245,16 @@ const DeviceOverview: React.FC = () => {
 
                 <div className="mb-4">
                   <div className="text-3xl font-bold text-gray-900 mb-1">0.69%</div>
-                  <div className="text-sm text-gray-600">2 Cores @ 2.40 GHz</div>
+                  <div className="text-sm text-gray-600">8 Cores @ 2.40 GHz</div>
                 </div>
 
                 <div className="h-24">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <AreaChart data={cpuData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorCpu" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }} />
@@ -272,12 +277,12 @@ const DeviceOverview: React.FC = () => {
                 </div>
 
                 <div className="h-24">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <AreaChart data={memoryData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorMem" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }} />
@@ -316,12 +321,12 @@ const DeviceOverview: React.FC = () => {
                 </div>
 
                 <div className="h-24">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <AreaChart data={uptimeData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorUptime" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px' }} />
