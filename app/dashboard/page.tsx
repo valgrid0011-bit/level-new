@@ -60,7 +60,7 @@ const Page = () => {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-50/50 dark:bg-blue-950 p-6 md:p-8 transition-colors duration-200">
+    <div className="flex-1 overflow-y-auto bg-gray-50/50 dark:bg-gray-950 p-6 md:p-8 transition-colors duration-200">
       <div className="space-y-8">
 
         {/* Header */}
