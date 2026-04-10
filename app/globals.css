@@ -1,33 +1,38 @@
 @import "tailwindcss";
 
+/* Tailwind v4: enable dark mode via .dark class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {}
 
 @theme inline {}
 
-/* 1. The Container */
+/* ── Scrollbar — Light ─────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 14px;
   height: 10px;
 }
 
-/* 2. The Track (Background) */
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* 3. The Handle (Thumb) */
 ::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 20px;
-
-  /* The Secret Sauce: 
-     A transparent border acts as "padding" to make the thumb look slimmer */
   border: 3px solid transparent;
   background-clip: content-box;
 }
 
-/* 4. Interactive Hover State */
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.3);
-  /* Darkens slightly when active */
+}
+
+/* ── Scrollbar — Dark ──────────────────────────────────────── */
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.25);
 }

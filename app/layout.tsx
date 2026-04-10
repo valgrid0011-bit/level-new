@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/lib/theme";
 
 const font = DM_Sans({
   subsets: ["latin"],
@@ -22,7 +23,19 @@ export default function RootLayout({
       lang="en"
       className={`h-full antialiased ${font.className}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      {/* Anti-FOUC: apply .dark before React hydration */}
+      <head>
+        {/* <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var mq=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(t===null||t==='system')&&mq){document.documentElement.classList.add('dark')}}catch(e){}})()`,
+          }}
+        /> */}
+      </head>
+      <body className="min-h-full flex flex-col bg-white dark:bg-gray-950 transition-colors duration-200">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -5,12 +5,17 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FiSettings, FiMenu, FiX } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // desktop dropdown
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement | null>(null);
 
   const links = [
     { label: "Devices", href: "/dashboard/devices" },
@@ -20,23 +25,51 @@ export function Header() {
     { label: "Reports & Settings", href: "/dashboard/reports" }
   ];
 
+  // close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (!settingsRef.current) return;
+      if (!settingsRef.current.contains(e.target as Node)) {
+        setSettingsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
-      <div className="w-full border-b border-gray-200 bg-white px-4 md:px-6 flex items-center justify-between">
+      <div className="w-full border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 md:px-6 flex items-center justify-between transition-colors duration-200">
         {/* Left */}
         <div className="flex items-center gap-6">
-          <Image src="/logo.svg" alt="Logo" width={96} height={32} className="py-4" />
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.svg"
+              alt="Logo"
+              width={40}
+              height={40}
+              className="py-3"
+            />
+            <Image
+              src="/level.svg"
+              alt="Level"
+              width={70}
+              height={70}
+              className="py-3 dark:invert"
+            />
+          </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex text-sm text-gray-600">
+          <div className="hidden lg:flex text-sm text-gray-600 dark:text-gray-400">
             {links.map((link, i) => (
               <Link
                 key={i}
                 href={link.href}
                 className={cn(
-                  "px-4 py-5 flex items-center gap-1 border-b-4 border-transparent hover:bg-gray-100",
+                  "px-4 py-5 flex items-center gap-1 border-b-4 border-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors",
                   pathname.startsWith(link.href)
-                    ? "text-blue-600 bg-blue-50 font-bold border-blue-600"
+                    ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 font-bold border-blue-600"
                     : ""
                 )}
               >
@@ -52,13 +85,49 @@ export function Header() {
         </div>
 
         {/* Right (Desktop) */}
-        <div className="flex items-center gap-5">
-          <Link href="#" className="text-sm text-gray-600">
+        <div className="flex items-center gap-3">
+          <Link
+            href="#"
+            className="text-sm text-gray-600 dark:text-gray-400 hidden md:block"
+          >
             Changelog
           </Link>
 
-          <div className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full">
-            <FiSettings />
+          {/* Settings Dropdown */}
+          <div className="relative hidden md:block" ref={settingsRef}>
+            <button
+              onClick={() => setSettingsOpen((prev) => !prev)}
+              className={cn(
+                "w-8 h-8 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-400 transition-colors",
+                settingsOpen
+                  ? "bg-gray-100 dark:bg-gray-800"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-800"
+              )}
+            >
+              <FiSettings />
+            </button>
+
+            <AnimatePresence>
+              {settingsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 mt-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-lg overflow-hidden z-50"
+                >
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-800">
+                    <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                      Appearance
+                    </p>
+                  </div>
+
+                  <div className="p-3">
+                    <ThemeToggle showLabels />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <div className="hidden md:block relative w-8 h-8 rounded-full bg-blue-900">
@@ -67,13 +136,12 @@ export function Header() {
 
           {/* Mobile Hamburger */}
           <button
-            className="lg:hidden p-1 hover:bg-gray-100 rounded-full"
+            className="lg:hidden p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 transition-colors"
             onClick={() => setOpen(true)}
           >
             <FiMenu size={22} />
           </button>
         </div>
-
       </div>
 
       {/* Mobile Slide Menu */}
@@ -87,7 +155,7 @@ export function Header() {
           >
             {/* Overlay */}
             <motion.div
-              className="absolute inset-0 bg-black/30"
+              className="absolute inset-0 bg-black/40 dark:bg-black/60"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -96,18 +164,20 @@ export function Header() {
 
             {/* Panel */}
             <motion.div
-              className="absolute right-0 top-0 h-full w-72 bg-white shadow-lg flex flex-col"
+              className="absolute right-0 top-0 h-full w-72 bg-white dark:bg-gray-900 shadow-lg flex flex-col border-l border-gray-200 dark:border-gray-800"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              {/* Header */}
-              <div className="flex items-center justify-between p-4 mb-2 border-b border-gray-200">
-                <span className="font-semibold">Menu</span>
+              {/* Panel Header */}
+              <div className="flex items-center justify-between p-4 mb-2 border-b border-gray-200 dark:border-gray-800">
+                <span className="font-semibold text-gray-900 dark:text-gray-100">
+                  Menu
+                </span>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-1 hover:bg-gray-100 rounded-full"
+                  className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400 transition-colors"
                 >
                   <FiX size={20} />
                 </button>
@@ -121,10 +191,10 @@ export function Header() {
                     href={link.href}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      "px-4 py-3 text-sm flex justify-between items-center hover:bg-gray-100",
+                      "px-4 py-3 text-sm flex justify-between items-center transition-colors",
                       pathname.startsWith(link.href)
-                        ? "text-blue-600 bg-blue-50 font-medium border-r-4 border-blue-600"
-                        : "text-gray-700"
+                        ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 font-medium border-r-4 border-blue-600"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                     )}
                   >
                     {link.label}
@@ -137,14 +207,26 @@ export function Header() {
                 ))}
               </div>
 
-              {/* Bottom */}
-              <div className="mt-auto p-4 border-t border-gray-200 flex justify-between items-center gap-4">
-                <div className="relative w-8 h-8 rounded-full bg-blue-900">
-                  <Image src="/level.png" alt="avatar" fill className="object-contain" />
+              {/* Bottom — avatar + settings + theme toggle */}
+              <div className="mt-auto flex flex-col gap-3">
+                <div className="flex items-center justify-center p-4">
+                  <ThemeToggle showLabels />
                 </div>
-                <div className="flex items-center gap-2">
-                  <FiSettings />
-                  <span className="text-sm">Settings</span>
+
+                {/* User row */}
+                <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-800 p-4">
+                  <div className="relative w-8 h-8 rounded-full bg-blue-900 flex-shrink-0">
+                    <Image
+                      src="/level.png"
+                      alt="avatar"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <FiSettings />
+                    <span className="text-sm">Settings</span>
+                  </div>
                 </div>
               </div>
             </motion.div>
