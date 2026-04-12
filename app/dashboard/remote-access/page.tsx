@@ -23,8 +23,8 @@ const RemoteAccessPage = () => {
   ];
 
   return (
-    <div className="w-full h-full max-w-8xl mx-auto">
-      <div className="flex-1 flex flex-col min-h-screen bg-gray-50/50 dark:bg-gray-950 min-w-0 transition-colors duration-200 p-4 md:p-6">
+    <div className="w-full max-w-8xl mx-auto">
+      <div className="flex-1 flex flex-col bg-gray-50/50 dark:bg-gray-950 min-w-0 transition-colors duration-200 p-4 md:p-6">
 
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
           <Link href="/dashboard" className='text-blue-500 hover:text-blue-600'>
@@ -37,10 +37,15 @@ const RemoteAccessPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 flex-wrap py-2">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <FiMonitor className="text-blue-500" /> Remote Access & Support
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-3">
+              <div className="p-2 bg-blue-100 dark:bg-blue-950/50 rounded-lg">
+                <FiMonitor size={28} className='text-blue-600 dark:text-blue-400' />
+              </div>
+              Remote Access & Support
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">Securely connect to endpoints, manage active sessions, and review audit logs.</p>
+            <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm md:text-base">
+              Securely connect to endpoints, manage active sessions, and review audit logs.
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors shadow-sm flex items-center gap-2 flex-shrink-0">
@@ -50,7 +55,7 @@ const RemoteAccessPage = () => {
         </div>
 
         {/* Main Layout */}
-        <div className="flex-1 w-full p-6 flex flex-col gap-6">
+        <div className="flex-1 w-full flex flex-col gap-5 pt-2">
 
           {/* Info Banner */}
           <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 rounded-xl p-4 flex items-start gap-3">

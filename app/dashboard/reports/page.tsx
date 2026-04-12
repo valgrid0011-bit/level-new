@@ -26,8 +26,8 @@ const ReportsPage = () => {
   ];
 
   return (
-    <div className="w-full h-full max-w-8xl mx-auto">
-      <div className="flex-1 flex flex-col min-h-screen bg-gray-50/50 dark:bg-gray-950 min-w-0 transition-colors duration-200 p-4 md:p-6">
+    <div className="w-full max-w-8xl mx-auto">
+      <div className="flex-1 flex flex-col bg-gray-50/50 dark:bg-gray-950 min-w-0 transition-colors duration-200 p-4 md:p-6">
 
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
           <Link href="/dashboard" className='text-blue-500 hover:text-blue-600'>
@@ -40,10 +40,15 @@ const ReportsPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 flex-wrap py-2">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <FiFileText className="text-blue-600" /> Reports & Settings
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-3">
+              <div className="p-2 bg-blue-100 dark:bg-blue-950/50 rounded-lg">
+                <FiFileText size={28} className='text-blue-600 dark:text-blue-400' />
+              </div>
+              Reports & Settings
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">Generate beautiful executive reports, schedule email deliveries, and configure workspace basics.</p>
+            <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm md:text-base">
+              Generate beautiful executive reports, schedule email deliveries, and configure workspace basics.
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <button className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 shadow-sm transition-colors text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 flex items-center gap-2 flex-shrink-0">
@@ -57,7 +62,6 @@ const ReportsPage = () => {
 
         {/* Main Layout */}
         <div className="flex-1 w-full p-3 flex flex-col gap-6">
-
           {/* Settings Teaser Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -78,8 +82,7 @@ const ReportsPage = () => {
           </div>
 
           {/* Content Area */}
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm flex-1 flex flex-col min-h-0 mt-2 transition-colors duration-200">
-
+          <div className="self-wrap bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm flex-1 flex flex-col mt-2 transition-colors duration-200">
             {/* Tabs */}
             <div className="border-b border-gray-200 dark:border-gray-800 px-3 pt-2 flex overflow-x-auto flex-shrink-0">
               {['Templates', 'Generated'].map(tab => (
@@ -98,55 +101,52 @@ const ReportsPage = () => {
               ))}
             </div>
 
-            {/* Table */}
-            <div className="flex-1 overflow-auto min-h-0">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-gray-50 dark:bg-gray-900/80 border-b border-gray-100 dark:border-gray-800 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      {['Report Name', 'Description', 'Output Format', 'Delivery Schedule', 'Actions'].map(h => (
-                        <th key={h} className={cn("px-6 py-4 whitespace-nowrap", h === 'Actions' ? 'text-right' : '')}>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100 dark:divide-gray-800 bg-white dark:bg-gray-900">
-                    {templates.map((tpl, i) => (
-                      <tr key={i} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 group transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-2">
-                            <FiFileText className="text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-400" />
-                            {tpl.name}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400 max-w-sm sm:max-w-none truncate md:whitespace-normal whitespace-nowrap" title={tpl.desc}>
-                          {tpl.desc}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="inline-flex items-center gap-1 text-xs font-bold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded border border-gray-200 dark:border-gray-700">
-                            {tpl.type}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300">
-                            {tpl.schedule !== 'Manual' && <FiClock size={14} className="text-blue-500 dark:text-blue-400" />}
-                            {tpl.schedule}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-right whitespace-nowrap">
-                          <div className="flex gap-2 justify-end">
-                            <button className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded text-sm font-medium transition-colors">
-                              Configure
-                            </button>
-                            <button className="px-3 py-1.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-950/60 rounded text-sm font-medium transition-colors shadow-sm">
-                              Generate Now
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 dark:bg-gray-900/80 border-b border-gray-100 dark:border-gray-800 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    {['Report Name', 'Description', 'Output Format', 'Delivery Schedule', 'Actions'].map(h => (
+                      <th key={h} className={cn("px-6 py-4 whitespace-nowrap", h === 'Actions' ? 'text-right' : '')}>{h}</th>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800 bg-white dark:bg-gray-900">
+                  {templates.map((tpl, i) => (
+                    <tr key={i} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 group transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-2">
+                          <FiFileText className="text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-400" />
+                          {tpl.name}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400 max-w-sm sm:max-w-none truncate md:whitespace-normal whitespace-nowrap" title={tpl.desc}>
+                        {tpl.desc}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1 text-xs font-bold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded border border-gray-200 dark:border-gray-700">
+                          {tpl.type}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300">
+                          {tpl.schedule !== 'Manual' && <FiClock size={14} className="text-blue-500 dark:text-blue-400" />}
+                          {tpl.schedule}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right whitespace-nowrap">
+                        <div className="flex gap-2 justify-end">
+                          <button className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded text-sm font-medium transition-colors">
+                            Configure
+                          </button>
+                          <button className="px-3 py-1.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-950/60 rounded text-sm font-medium transition-colors shadow-sm">
+                            Generate Now
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
