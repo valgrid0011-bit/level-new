@@ -1,16 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { FiSettings, FiMenu, FiX } from "react-icons/fi";
+import { FiSettings, FiMenu, FiX, FiUser, FiLogOut, FiHelpCircle, FiBell, FiKey, FiShield } from "react-icons/fi";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   // desktop dropdown
@@ -19,10 +20,10 @@ export function Header() {
 
   const links = [
     { label: "Devices", href: "/dashboard/devices" },
-    { label: "Monitoring & Alerts", href: "/dashboard/monitoring" },
-    { label: "Automation & Patching", href: "/dashboard/automation" },
-    { label: "Remote Access & Support", href: "/dashboard/remote-access" },
-    { label: "Reports & Settings", href: "/dashboard/reports" }
+    { label: "Monitoring", href: "/dashboard/monitoring" },
+    { label: "Automation", href: "/dashboard/automation" },
+    { label: "Remote Access", href: "/dashboard/remote-access" },
+    { label: "Reports", href: "/dashboard/reports" }
   ];
 
   // close dropdown when clicking outside
@@ -37,6 +38,12 @@ export function Header() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleLogout = () => {
+    setSettingsOpen(false);
+    // Add your logout logic here
+    router.push("/login");
+  };
 
   return (
     <>
@@ -88,7 +95,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <Link
             href="#"
-            className="text-sm text-gray-600 dark:text-gray-400 hidden md:block"
+            className="text-sm text-gray-600 dark:text-gray-400 hidden md:block hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
           >
             Changelog
           </Link>
@@ -114,16 +121,116 @@ export function Header() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.98 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 mt-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-lg overflow-hidden z-50"
+                  className="absolute right-0 mt-2 w-64 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-lg overflow-hidden z-50"
                 >
+                  {/* User Info Section */}
                   <div className="p-3 border-b border-gray-200 dark:border-gray-800">
-                    <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                      Appearance
-                    </p>
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-10 h-10 rounded-full bg-blue-900 flex-shrink-0">
+                        <Image
+                          src="/level.png"
+                          alt="avatar"
+                          fill
+                          className="object-contain rounded-full"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                          John Doe
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          john@example.com
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="p-3">
+                  {/* Appearance Section */}
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-800">
+                    <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Appearance
+                    </p>
                     <ThemeToggle showLabels />
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="py-1">
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        router.push("/settings/profile");
+                      }}
+                      className="w-full px-3 py-2 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <FiUser className="text-gray-500 dark:text-gray-400" size={16} />
+                      <span>Profile Settings</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        router.push("/settings/account");
+                      }}
+                      className="w-full px-3 py-2 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <FiSettings className="text-gray-500 dark:text-gray-400" size={16} />
+                      <span>Account Settings</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        router.push("/settings/notifications");
+                      }}
+                      className="w-full px-3 py-2 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <FiBell className="text-gray-500 dark:text-gray-400" size={16} />
+                      <span>Notifications</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        router.push("/settings/security");
+                      }}
+                      className="w-full px-3 py-2 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <FiShield className="text-gray-500 dark:text-gray-400" size={16} />
+                      <span>Privacy & Security</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        router.push("/settings/api-keys");
+                      }}
+                      className="w-full px-3 py-2 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <FiKey className="text-gray-500 dark:text-gray-400" size={16} />
+                      <span>API Keys</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSettingsOpen(false);
+                        router.push("/help");
+                      }}
+                      className="w-full px-3 py-2 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <FiHelpCircle className="text-gray-500 dark:text-gray-400" size={16} />
+                      <span>Help & Support</span>
+                    </button>
+                  </div>
+
+                  {/* Logout Section */}
+                  <div className="border-t border-gray-200 dark:border-gray-800">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-3 py-2 flex items-center gap-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+                    >
+                      <FiLogOut size={16} />
+                      <span>Logout</span>
+                    </button>
                   </div>
                 </motion.div>
               )}
@@ -164,7 +271,7 @@ export function Header() {
 
             {/* Panel */}
             <motion.div
-              className="absolute right-0 top-0 h-full w-72 bg-white dark:bg-gray-900 shadow-lg flex flex-col border-l border-gray-200 dark:border-gray-800"
+              className="absolute right-0 top-0 h-full w-72 bg-white dark:bg-gray-900 shadow-lg flex flex-col border-l border-gray-200 dark:border-gray-800 overflow-y-auto"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -207,26 +314,113 @@ export function Header() {
                 ))}
               </div>
 
-              {/* Bottom — avatar + settings + theme toggle */}
-              <div className="mt-auto flex flex-col gap-3">
-                <div className="flex items-center justify-center p-4">
+              {/* Mobile Settings Section */}
+              <div className="mt-auto flex flex-col">
+                {/* Theme Toggle */}
+                <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+                  <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Appearance
+                  </p>
                   <ThemeToggle showLabels />
                 </div>
 
-                {/* User row */}
-                <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-800 p-4">
-                  <div className="relative w-8 h-8 rounded-full bg-blue-900 flex-shrink-0">
-                    <Image
-                      src="/level.png"
-                      alt="avatar"
-                      fill
-                      className="object-contain"
-                    />
+                {/* Menu Items */}
+                <div className="border-t border-gray-200 dark:border-gray-800">
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      router.push("/settings/profile");
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <FiUser className="text-gray-500 dark:text-gray-400" size={18} />
+                    <span>Profile Settings</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      router.push("/settings/account");
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <FiSettings className="text-gray-500 dark:text-gray-400" size={18} />
+                    <span>Account Settings</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      router.push("/settings/notifications");
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <FiBell className="text-gray-500 dark:text-gray-400" size={18} />
+                    <span>Notifications</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      router.push("/settings/security");
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <FiShield className="text-gray-500 dark:text-gray-400" size={18} />
+                    <span>Privacy & Security</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      router.push("/settings/api-keys");
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <FiKey className="text-gray-500 dark:text-gray-400" size={18} />
+                    <span>API Keys</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      router.push("/help");
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <FiHelpCircle className="text-gray-500 dark:text-gray-400" size={18} />
+                    <span>Help & Support</span>
+                  </button>
+                </div>
+
+                {/* User Info + Logout */}
+                <div className="border-t border-gray-200 dark:border-gray-800">
+                  <div className="flex items-center gap-3 p-4">
+                    <div className="relative w-10 h-10 rounded-full bg-blue-900 flex-shrink-0">
+                      <Image
+                        src="/level.png"
+                        alt="avatar"
+                        fill
+                        className="object-contain rounded-full"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
+                        John Doe
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                        john@example.com
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                    <FiSettings />
-                    <span className="text-sm">Settings</span>
-                  </div>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors border-t border-gray-200 dark:border-gray-800"
+                  >
+                    <FiLogOut size={18} />
+                    <span>Logout</span>
+                  </button>
                 </div>
               </div>
             </motion.div>
